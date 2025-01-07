@@ -2,22 +2,43 @@
 <html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Website Title</title>
     <title>Flying Image Slideshow</title>
     <style>
         body {
             margin: 0;
             overflow: hidden;
             background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
         }
+
         img {
             position: absolute;
-            max-width: 200px;
-            max-height: 200px;
-            object-fit: contain;
+            max-width: 90%;  /* Make the image width responsive */
+            max-height: 90%; /* Make the image height responsive */
+            object-fit: contain; /* Preserve the image's aspect ratio */
             transition: transform 1s ease;
+            will-change: transform; /* Optimizes performance during transformation */
         }
-        
+
+        /* Media query for smaller devices like phones */
+        @media (max-width: 600px) {
+            img {
+                max-width: 80%;  /* Reduce the image size a bit for smaller screens */
+                max-height: 80%; /* Ensure the image is not too big */
+            }
+        }
+
+        /* Media query for very large screens (tablets and desktops) */
+        @media (min-width: 1200px) {
+            img {
+                max-width: 50%;  /* Make the image a bit larger on bigger screens */
+                max-height: 50%; /* Keep a larger image size on large screens */
+            }
+        }
     </style>
 </head>
 <body>
@@ -34,13 +55,13 @@
             "img 7.jpg",
             "img 8.jpg",
             "img 9.jpg"
-        
         ]; // Add the paths to your images here
 
         let currentIndex = 0;
         const imgElement = document.getElementById("slideshow");
 
         function getRandomPosition() {
+            // Calculate random position within the window size
             const x = Math.random() * window.innerWidth;
             const y = Math.random() * window.innerHeight;
             return { x, y };
@@ -51,7 +72,7 @@
             imgElement.src = images[currentIndex];
             currentIndex = (currentIndex + 1) % images.length;
 
-            // Move the image to a random position
+            // Move the image to a random position within the window
             const { x, y } = getRandomPosition();
             imgElement.style.transform = `translate(${x}px, ${y}px)`;
         }
