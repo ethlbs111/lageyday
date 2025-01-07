@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flying Image Slideshow</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #f0f0f0;
+        }
+        img {
+            position: absolute;
+            max-width: 200px;
+            max-height: 200px;
+            object-fit: contain;
+            transition: transform 1s ease;
+        }
+    </style>
+</head>
+<body>
+    <img id="slideshow" src="" alt="Flying Slideshow Image">
+
+    <script>
+        const images = [
+            "img 1.jpg",
+            "img 2.jpg",
+            "img 3.jpg",
+            "img 4.jpg"
+        ]; // Add the paths to your images here
+
+        let currentIndex = 0;
+        const imgElement = document.getElementById("slideshow");
+
+        function getRandomPosition() {
+            const x = Math.random() * window.innerWidth;
+            const y = Math.random() * window.innerHeight;
+            return { x, y };
+        }
+
+        function showNextImage() {
+            // Update the image source
+            imgElement.src = images[currentIndex];
+            currentIndex = (currentIndex + 1) % images.length;
+
+            // Move the image to a random position
+            const { x, y } = getRandomPosition();
+            imgElement.style.transform = `translate(${x}px, ${y}px)`;
+        }
+
+        // Show the first image immediately
+        showNextImage();
+
+        // Cycle through the images every 3 seconds
+        setInterval(showNextImage, 3000);
+
+        // Adjust image position on window resize
+        window.addEventListener("resize", () => {
+            const { x, y } = getRandomPosition();
+            imgElement.style.transform = `translate(${x}px, ${y}px)`;
+        });
+    </script>
+</body>
+</html>
